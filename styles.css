@@ -1,7 +1,8 @@
 /*
 * Palette from match.com
 * Red: #EC6360
-* Blue: #0CA1A3
+* Cyan: #0CA1A3
+* Blue: #1173BF;
 * Green: #56B87D
 */
 
@@ -16,7 +17,7 @@ html, body {
 }
 
 .header {
-  background-color: #56B87D;
+  background-color: #1173BF;
   color: white;
   height: 45px;
   width: 100%;
@@ -24,6 +25,7 @@ html, body {
 
 
 .prospectList {
+  position: relative;
   width: 300px;
   height: 300px;
   padding: 20px;
@@ -33,6 +35,7 @@ html, body {
 }
 
 .prospect {
+  position: absolute;
   width: 60px;
   height: 60px;
   border-radius: 100%;
