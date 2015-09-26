@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {Spring, presets as motionPresets} from "react-motion";
 import ProfilePicture from "./profile_picture";
+import _ from "lodash";
 
 const prospects = [1, 2, 3, 4, 5, 6, 7, 8 , 9, 10];
 
@@ -36,17 +37,26 @@ class ProspectList extends React.Component {
 class App extends React.Component {
   constructor () {
     super();
-    this.state = {profilePictureOpen: false};
+    this.state = {profilePictureOpen: false, listPosition: {left: 0, top: 0}};
   }
   render () {
     return (
       <div>
         <div className="header">
-          <ProfilePicture onClick={this._handleProfilePictureClick.bind(this)} open={this.state.profilePictureOpen} />
+          <ProfilePicture listPosition={this.state.listPosition} onClick={this._handleProfilePictureClick.bind(this)} open={this.state.profilePictureOpen} />
         </div>
-        <ProspectList />
+        <ProspectList ref="prospectList" />
       </div>
     );
+  }
+
+  componentDidMount() {
+    const updatePosition = () => {
+      const {left, top} = ReactDOM.findDOMNode(this.refs.prospectList).getBoundingClientRect();
+      this.setState({listPosition: {left, top}});
+    }
+    window.addEventListener("resize", _.throttle(updatePosition, 100));
+    updatePosition();
   }
 
   _handleProfilePictureClick () {

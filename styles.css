@@ -17,7 +17,7 @@ body {
 }
 
 * {
-  box-sizing: content-box;
+  box-sizing: border-box;
 }
 
 .header {
@@ -55,5 +55,7 @@ body {
   position: absolute;
   background-color: #EC6360;
   cursor: pointer;
+  background-image: url("http://www.winradio101.com/wp-content/uploads/2015/07/Brad_Pitt_3.jpg");
+  background-size: cover;
   z-index: 1;
 }
