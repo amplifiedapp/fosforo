@@ -12,12 +12,17 @@ html, body {
   font-family: "Helvetica", "Lucida Grande", "Lucida";
 }
 
+body {
+  overflow: hidden;
+}
+
 * {
   box-sizing: content-box;
 }
 
 .header {
   background-color: #1173BF;
+  position: relative;
   color: white;
   height: 45px;
   width: 100%;
@@ -44,4 +49,11 @@ html, body {
   margin-right: 20px;
   margin-bottom: 20px;
   cursor: pointer;
+}
+
+.profilePicture {
+  position: absolute;
+  background-color: #EC6360;
+  cursor: pointer;
+  z-index: 1;
 }

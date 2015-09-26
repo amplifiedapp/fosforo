@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {Spring, presets as motionPresets} from "react-motion";
-
+import ProfilePicture from "./profile_picture";
 
 const prospects = [1, 2, 3, 4, 5, 6, 7, 8 , 9, 10];
 
@@ -34,9 +34,24 @@ class ProspectList extends React.Component {
 }
 
 class App extends React.Component {
+  constructor () {
+    super();
+    this.state = {profilePictureOpen: false};
+  }
   render () {
-    return <ProspectList />;
+    return (
+      <div>
+        <div className="header">
+          <ProfilePicture onClick={this._handleProfilePictureClick.bind(this)} open={this.state.profilePictureOpen} />
+        </div>
+        <ProspectList />
+      </div>
+    );
+  }
+
+  _handleProfilePictureClick () {
+    this.setState({profilePictureOpen: !this.state.profilePictureOpen});
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('content'));
+ReactDOM.render(<App />, document.getElementById('reactContainer'));
