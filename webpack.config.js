@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 var config = {
   entry: {
-    app: './src/index'
+    app: './src/index2'
   },
   output: {
     filename: '[name].js',
