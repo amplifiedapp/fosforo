@@ -1,67 +1,95 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Spring, presets as motionPresets} from "react-motion";
-import ProfilePicture from "./profile_picture";
 import _ from "lodash";
+import {Spring, presets as motionPresets} from "react-motion";
 
-const prospects = [1, 2, 3, 4, 5, 6, 7, 8 , 9, 10];
 
-const Prospect = (props) => (
-  <Spring defaultValue={{size: {val: 40}}} endValue={{size: {val: props.open ? 100 : 40, config: motionPresets.woobly}}}>
-    {interpolated =>
-      <div className="prospect" onClick={props.changeState.bind(this, props.index)}
-           style={{width: `${interpolated.size.val}px`, height: `${interpolated.size.val}px`, left: (props.index % 4) * 80, top: Math.floor(props.index/4) * 80}} />
-    }
-  </Spring>
+const prospects = [1, 2, 3, 4, 5, 6, 7, 8 , 9];
+const spring = (values) => ({val: {...values}, config: [253, 20] });
+const initialSpring = (comparing) => spring({
+  size: 30, profileLeft: 5, profileTop: 5, prospectRadius: 100, prospectTranslateX: 0, prospectTranslateY: 0
+});
+
+const ProfilePicture = (props) => (
+  <div className="profilePicture" style={{
+    width: `${props.ip.val.size}px`,
+    height: `${props.ip.val.size}px`,
+    left: `${props.ip.val.profileLeft}`,
+    top: `${props.ip.val.profileTop}`
+  }} />
 );
 
-class ProspectList extends React.Component {
-  constructor () {
-    super();
-    this.state = {selectedProspect: -1};
-  }
 
-  render () {
-    return (
-      <div className="prospectList">
-        {prospects.map((prospect, i) => <Prospect key={i} index={i} open={i === this.state.selectedProspect} changeState={this._changeOpen.bind(this)}/>)}
-      </div>
-    );
-  }
+const Prospect = (props) => <div className={`prospect ${props.comparing && props.comparing.index === props.index ? "is-comparing" : ""}`}
+  ref={(el) => props.onStoreProspectRef(props.index, el)} onClick={() => props.onClick(props.index)} />;
 
-  _changeOpen (index) {
-    this.setState({selectedProspect: index});
-  }
-}
+const AnimatedProspect = (props) => <div className="prospect" style={{
+  position: "absolute",
+  left: `${props.comparing.left}`,
+  top: `${props.comparing.top}`,
+  width: `${props.ip.val.size}`,
+  height: `${props.ip.val.size}`,
+  transform: `translate(${props.ip.val.prospectTranslateX}px, ${props.ip.val.prospectTranslateY}px)`,
+  borderRadius: `${props.ip.val.prospectRadius}%`
+}} />;
+
 
 class App extends React.Component {
   constructor () {
     super();
-    this.state = {profilePictureOpen: false, listPosition: {left: 0, top: 0}};
+    this.prospects = {};
+    this.state = {comparing: null};
   }
+
   render () {
     return (
-      <div>
-        <div className="header">
-          <ProfilePicture listPosition={this.state.listPosition} onClick={this._handleProfilePictureClick.bind(this)} open={this.state.profilePictureOpen} />
-        </div>
-        <ProspectList ref="prospectList" />
-      </div>
+      <Spring defaultValue={initialSpring(this.state.comparing)} endValue={(prev) => computeEndValue(prev, this.state)} >
+        {ip =>
+          <div>
+
+            <div className="header" onClick={() => this.setState({comparing: null})} >
+              <ProfilePicture ip={ip} />
+            </div>
+
+            {this.state.comparing && <AnimatedProspect ip={ip} comparing={this.state.comparing} />}
+
+            <h3 className="infoTitle">
+              Click on any person to see how you two look together!
+            </h3>
+
+            <div className="prospectList">
+              {prospects.map((prospect, index) => (
+                <Prospect key={index} index={index} onClick={this._handleProspectClick.bind(this)}
+                  onStoreProspectRef={(index, ref) => this.prospects[index] = ref}  comparing={this.state.comparing} />)
+                )
+              }
+            </div>
+
+          </div>
+        }
+      </Spring>
     );
   }
 
-  componentDidMount() {
-    const updatePosition = () => {
-      const {left, top} = ReactDOM.findDOMNode(this.refs.prospectList).getBoundingClientRect();
-      this.setState({listPosition: {left, top}});
-    }
-    window.addEventListener("resize", _.throttle(updatePosition, 100));
-    updatePosition();
+  _handleProspectClick (index) {
+    const {left, top} = this.prospects[index].getBoundingClientRect();
+    this.setState({comparing: {index, left, top}});
+  }
+}
+
+function computeEndValue(prev, props) {
+  let {size, profileLeft, profileTop, prospectTranslateX, prospectTranslateY, prospectRadius} = initialSpring().val;
+
+  if (props.comparing) {
+    size = 300;
+    profileLeft = 200;
+    profileTop = 200;
+    prospectTranslateX = -300;
+    prospectTranslateY = 0;
+    prospectRadius = 0;
   }
 
-  _handleProfilePictureClick () {
-    this.setState({profilePictureOpen: !this.state.profilePictureOpen});
-  }
+  return spring({size, profileLeft, profileTop, prospectTranslateX, prospectTranslateY, prospectRadius});
 }
 
 ReactDOM.render(<App />, document.getElementById('reactContainer'));

@@ -28,27 +28,34 @@ body {
   width: 100%;
 }
 
+.infoTitle {
+  margin-top: 50px;
+  text-align: center;
+}
 
 .prospectList {
   position: relative;
-  width: 300px;
-  height: 300px;
+  overflow: hidden;
+  width: 340px;
+  height: 340px;
   padding: 20px;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 40px;
   box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 .prospect {
-  position: absolute;
   width: 60px;
   height: 60px;
   border-radius: 100%;
   background-color: #EC6360;
   float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  margin: 20px;
   cursor: pointer;
+}
+
+.prospect.is-comparing {
+  opacity: .2;
 }
 
 .profilePicture {
