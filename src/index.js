@@ -4,8 +4,9 @@ import _ from "lodash";
 import {Spring, presets as motionPresets} from "react-motion";
 
 
+const config = [253, 20];
 const prospects = [1, 2, 3, 4, 5, 6, 7, 8 , 9];
-const spring = (values) => ({val: {...values}, config: [253, 20] });
+const spring = (values) => ({val: {...values}, config });
 const initialSpring = (comparing) => spring({
   size: 30, profileLeft: 5, profileTop: 5, prospectRadius: 100, prospectTranslateX: 0, prospectTranslateY: 0
 });
@@ -25,12 +26,10 @@ const Prospect = (props) => <div className={`prospect ${props.comparing && props
 
 const AnimatedProspect = (props) => <div className="prospect" style={{
   position: "absolute",
-  left: `${props.comparing.left}`,
-  top: `${props.comparing.top}`,
+  left: `${props.ip.val.left}`,
+  top: `${props.ip.val.top}`,
   width: `${props.ip.val.size}`,
-  height: `${props.ip.val.size}`,
-  transform: `translate(${props.ip.val.prospectTranslateX}px, ${props.ip.val.prospectTranslateY}px)`,
-  borderRadius: `${props.ip.val.prospectRadius}%`
+  height: `${props.ip.val.size}`
 }} />;
 
 
@@ -43,7 +42,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <Spring defaultValue={initialSpring(this.state.comparing)} endValue={(prev) => computeEndValue(prev, this.state)} >
+      <Spring defaultValue={initialSpring(this.state.comparing)} endValue={this._computeEndValue.bind(this)} >
         {ip =>
           <div>
 
@@ -51,7 +50,16 @@ class App extends React.Component {
               <ProfilePicture ip={ip} />
             </div>
 
-            {this.state.comparing && <AnimatedProspect ip={ip} comparing={this.state.comparing} />}
+            {this.state.comparing &&
+              <Spring defaultValue={{val: {size: 40, left: this.state.comparing.left, top: this.state.comparing.top}, config}}
+                endValue={{val: {size: 300, left: 300, right: 300}, config}}
+              >
+                {prospectIp => (
+                  <AnimatedProspect ip={prospectIp} comparing={this.state.comparing} />
+                  )
+                }
+              </Spring>
+            }
 
             <h3 className="infoTitle">
               Click on any person to see how you two look together!
@@ -71,25 +79,24 @@ class App extends React.Component {
     );
   }
 
+  _computeEndValue (prev) {
+    let {size, profileLeft, profileTop} = initialSpring().val;
+
+    if (this.state.comparing) {
+      size = 300;
+      profileLeft = 200;
+      profileTop = 200;
+    }
+
+    return spring({size, profileLeft, profileTop});
+  }
+
   _handleProspectClick (index) {
     const {left, top} = this.prospects[index].getBoundingClientRect();
     this.setState({comparing: {index, left, top}});
   }
 }
 
-function computeEndValue(prev, props) {
-  let {size, profileLeft, profileTop, prospectTranslateX, prospectTranslateY, prospectRadius} = initialSpring().val;
 
-  if (props.comparing) {
-    size = 300;
-    profileLeft = 200;
-    profileTop = 200;
-    prospectTranslateX = -300;
-    prospectTranslateY = 0;
-    prospectRadius = 0;
-  }
-
-  return spring({size, profileLeft, profileTop, prospectTranslateX, prospectTranslateY, prospectRadius});
-}
 
 ReactDOM.render(<App />, document.getElementById('reactContainer'));
