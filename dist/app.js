@@ -75,8 +75,6 @@
 	var _reactMotion = __webpack_require__(155);
 
 	var config = [253, 20];
-	var prospects = [{ id: "1", src: "http://images.celebeat.com/data/images/full/3789/jennifer-aniston-puts-on-weight-for-her-role-in-cake-ib-times.jpg", fullName: "Jennifer A." }, { id: "2", src: "http://www.celebritynetworth.co/wp-content/uploads/2015/08/angelina-jolie-197957_w1000.jpg", fullName: "Angelina J." }, { id: "3", src: "http://i.huffpost.com/gen/1351199/images/o-DEMI-MOORE-2013-facebook.jpg", fullName: "Demi M." }, { id: "4", src: "http://www.theplace2.ru/archive/claire_forlani/img/2006jan2forlani55eb.jpg", fullName: "Claire F." }, { id: "5", src: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gwyneth_Paltrow_2012.jpg", fullName: "Gwyneth P." }, { id: "6", src: "http://www.dvdsreleasedates.com/pictures/800/12000/Thandie-Newton.jpg", fullName: "Thandie N." }, { id: "7", src: "https://pmcdeadline2.files.wordpress.com/2012/08/ormond__120830221523.jpg", fullName: "Julia O." }, { id: "8", src: "http://lostfilm.info/images/photo_actor/51/583271_507482.jpg", fullName: "Sonita H." }, { id: "9", src: "http://images.mstarz.com/data/images/full/28019/sinitta.jpg", fullName: "Sinitta" }];
-
 	var spring = function spring(values) {
 	  return { val: _extends({}, values), config: config };
 	};
@@ -87,9 +85,7 @@
 	  var top = _ref2$ip$val.top;
 	  var size = _ref2$ip$val.size;
 	  var radius = _ref2$ip$val.radius;
-	  return _react2["default"].createElement("div", { className: "profilePicture", style: {
-	      width: size, height: size, left: left, top: top, borderRadius: radius + "%"
-	    } });
+	  return _react2["default"].createElement("div", { className: "profilePicture", style: { width: size, height: size, left: left, top: top, borderRadius: radius + "%" } });
 	};
 
 	var Prospect = function Prospect(props) {
@@ -122,8 +118,7 @@
 	  return _react2["default"].createElement(
 	    "div",
 	    { className: "prospect", style: {
-	        position: "absolute", left: left, top: top, width: size, height: size, borderRadius: radius + "%"
-	      } },
+	        position: "absolute", left: left, top: top, width: size, height: size, borderRadius: radius + "%" } },
 	    _react2["default"].createElement("img", { src: src, width: size })
 	  );
 	};
@@ -135,7 +130,7 @@
 	    _classCallCheck(this, App);
 
 	    _get(Object.getPrototypeOf(App.prototype), "constructor", this).call(this, props);
-	    this.state = { comparingIndex: null, prospectsDimensions: {} };
+	    this.state = { comparingId: null, prospectsDimensions: {} };
 	  }
 
 	  _createClass(App, [{
@@ -149,7 +144,7 @@
 	        _react2["default"].createElement(
 	          "div",
 	          { className: "header", onClick: function () {
-	              return _this.setState({ comparingIndex: null });
+	              return _this.setState({ comparingId: null });
 	            } },
 	          _react2["default"].createElement(
 	            _reactMotion.Spring,
@@ -170,13 +165,13 @@
 	          _react2["default"].createElement(
 	            "div",
 	            { className: "prospectListContent" },
-	            prospects.map(function (prospect, index) {
-	              return _react2["default"].createElement(Prospect, { key: index, onClick: _this._handleProspectClick.bind(_this, index),
-	                comparing: _this.state.comparingIndex === index, prospect: prospect });
+	            _lodash2["default"].map(({"1":{"id":"1","src":"http://images.celebeat.com/data/images/full/3789/jennifer-aniston-puts-on-weight-for-her-role-in-cake-ib-times.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"http://www.celebritynetworth.co/wp-content/uploads/2015/08/angelina-jolie-197957_w1000.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"http://i.huffpost.com/gen/1351199/images/o-DEMI-MOORE-2013-facebook.jpg","fullName":"Demi M."},"4":{"id":"4","src":"http://www.theplace2.ru/archive/claire_forlani/img/2006jan2forlani55eb.jpg","fullName":"Claire F."},"5":{"id":"5","src":"https://upload.wikimedia.org/wikipedia/commons/3/3d/Gwyneth_Paltrow_2012.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"http://www.dvdsreleasedates.com/pictures/800/12000/Thandie-Newton.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"https://pmcdeadline2.files.wordpress.com/2012/08/ormond__120830221523.jpg","fullName":"Julia O."},"8":{"id":"8","src":"http://lostfilm.info/images/photo_actor/51/583271_507482.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"http://images.mstarz.com/data/images/full/28019/sinitta.jpg","fullName":"Sinitta"}}), function (prospect, id) {
+	              return _react2["default"].createElement(Prospect, { key: id, onClick: _this._handleProspectClick.bind(_this, id),
+	                comparing: _this.state.comparingId === id, prospect: prospect });
 	            })
 	          )
 	        ),
-	        _react2["default"].createElement("div", { className: "compareFrame " + (this.state.comparingIndex !== null ? "is-comparing" : "") }),
+	        _react2["default"].createElement("div", { className: "compareFrame " + (this.state.comparingId !== null ? "is-comparing" : "") }),
 	        _react2["default"].createElement(
 	          _reactMotion.TransitionSpring,
 	          {
@@ -189,7 +184,7 @@
 	              "div",
 	              null,
 	              Object.keys(currentValue).map(function (key) {
-	                return _react2["default"].createElement(AnimatedProspect, { key: key, ip: currentValue[key], prospect: prospects[key] });
+	                return _react2["default"].createElement(AnimatedProspect, { key: key, ip: currentValue[key], prospect: ({"1":{"id":"1","src":"http://images.celebeat.com/data/images/full/3789/jennifer-aniston-puts-on-weight-for-her-role-in-cake-ib-times.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"http://www.celebritynetworth.co/wp-content/uploads/2015/08/angelina-jolie-197957_w1000.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"http://i.huffpost.com/gen/1351199/images/o-DEMI-MOORE-2013-facebook.jpg","fullName":"Demi M."},"4":{"id":"4","src":"http://www.theplace2.ru/archive/claire_forlani/img/2006jan2forlani55eb.jpg","fullName":"Claire F."},"5":{"id":"5","src":"https://upload.wikimedia.org/wikipedia/commons/3/3d/Gwyneth_Paltrow_2012.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"http://www.dvdsreleasedates.com/pictures/800/12000/Thandie-Newton.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"https://pmcdeadline2.files.wordpress.com/2012/08/ormond__120830221523.jpg","fullName":"Julia O."},"8":{"id":"8","src":"http://lostfilm.info/images/photo_actor/51/583271_507482.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"http://images.mstarz.com/data/images/full/28019/sinitta.jpg","fullName":"Sinitta"}})[key] });
 	              })
 	            );
 	          }
@@ -205,7 +200,7 @@
 	    key: "_getProfileEndValue",
 	    value: function _getProfileEndValue(prev) {
 	      // Remember that default spring and end values must have the same format.
-	      if (this.state.comparingIndex !== null) {
+	      if (this.state.comparingId !== null) {
 	        var radius = prev.val.size < 150 ? 80 : 0;
 	        return spring({ size: 380, left: 860, top: 100, radius: radius });
 	      } else {
@@ -214,7 +209,6 @@
 	    }
 
 	    // Prospect
-
 	  }, {
 	    key: "_animatedProspectWillEnterOrLeave",
 	    value: function _animatedProspectWillEnterOrLeave(key) {
@@ -231,21 +225,20 @@
 	  }, {
 	    key: "_getAnimatedProspectEndValue",
 	    value: function _getAnimatedProspectEndValue(prev) {
-	      if (this.state.comparingIndex === null) return {};
-	      return _defineProperty({}, this.state.comparingIndex, { val: { size: 380, left: 450, top: 80, radius: 0 }, config: config });
+	      return this.state.comparingId ? _defineProperty({}, this.state.comparingId, { val: { size: 380, left: 450, top: 80, radius: 0 }, config: config }) : {};
 	    }
 	  }, {
 	    key: "_handleProspectClick",
-	    value: function _handleProspectClick(index, getDimensions) {
+	    value: function _handleProspectClick(id, getDimensions) {
 	      var _getDimensions = getDimensions();
 
 	      var left = _getDimensions.left;
 	      var top = _getDimensions.top;
 	      var right = _getDimensions.right;
 
-	      var prospectsDimensions = _extends({}, this.state.prospectsDimensions, _defineProperty({}, index, { index: index, left: left, right: right, top: top }));
-	      var comparingIndex = this.state.comparingIndex === index ? null : index;
-	      this.setState({ comparingIndex: comparingIndex, prospectsDimensions: prospectsDimensions });
+	      var prospectsDimensions = _extends({}, this.state.prospectsDimensions, _defineProperty({}, id, { id: id, left: left, right: right, top: top }));
+	      var comparingId = this.state.comparingId === id ? null : id;
+	      this.setState({ comparingId: comparingId, prospectsDimensions: prospectsDimensions });
 	    }
 	  }]);
 
