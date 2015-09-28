@@ -5,6 +5,7 @@ import {Spring, TransitionSpring, presets as motionPresets} from "react-motion";
 
 const config = [253, 20];
 const spring = (values) => ({val: {...values}, config });
+const getProfileInitialSpring = () => spring({size: 40, left: 25, top: 5, radius: 100});
 
 const ProfilePicture = ({ip: { val: {left, top, size, radius} }}) => (
   <div className="profilePicture" style={{width: size, height: size, left, top, borderRadius: `${radius}%`}}/>
@@ -14,8 +15,9 @@ const Prospect = (props) => <div className="prospectWrapper"><div className={`pr
   onClick={(ev) => props.onClick(ev.target.getBoundingClientRect.bind(ev.target))}><img src={props.prospect.src} width={60}/></div>
   <span className="prospectName">{props.prospect.fullName}</span></div>;
 
-const AnimatedProspect = ({ip: { val: { left, top, size, radius} }, prospect:{src}}) => <div className="prospect" style={{
-  position: "absolute", left, top, width: size, height: size, borderRadius: `${radius}%`}}><img src={src} width={size}/></div>;
+const AnimatedProspect = ({ip: { val: { left, top, size, radius}}, prospect: {src}, onClick}) => <div className="prospect"
+  style={{position: "absolute", left, top, width: size, height: size, borderRadius: `${radius}%`}} onClick={onClick} >
+  <img src={src} width={size}/></div>;
 
 class App extends React.Component {
   constructor (props) {
@@ -26,13 +28,11 @@ class App extends React.Component {
   render () {
     return (
         <div>
-          <div className="header" onClick={() => this.setState({comparingId: null})} >
-            <Spring defaultValue={this._getProfileInitialSpring()} endValue={this._getProfileEndValue.bind(this)} >
+          <div className="header" onClick={this._stopComparing.bind(this)} >
+            <Spring defaultValue={getProfileInitialSpring()} endValue={this._getProfileEndValue.bind(this)} >
               {ip => <ProfilePicture ip={ip} />}
             </Spring>
           </div>
-
-
           <div className="prospectList">
             <div className="prospectListHeader">Click on any person to see how you two look together!</div>
             <div className="prospectListContent">
@@ -43,44 +43,36 @@ class App extends React.Component {
             </div>
           </div>
           <div className={`compareFrame ${this.state.comparingId !== null ? "is-comparing" : ""}`}></div>
-          <TransitionSpring
-            willEnter={this._animatedProspectWillEnterOrLeave.bind(this)}
+          <TransitionSpring willEnter={this._animatedProspectWillEnterOrLeave.bind(this)}
             willLeave={this._animatedProspectWillEnterOrLeave.bind(this)}
             endValue={this._getAnimatedProspectEndValue()}
           >
             {currentValue => <div>{Object.keys(currentValue).map(key =>
-              <AnimatedProspect key={key} ip={currentValue[key]} prospect={PROSPECT_DATA[key]}/>
+              <AnimatedProspect onClick={this._stopComparing.bind(this)} key={key} ip={currentValue[key]} prospect={PROSPECT_DATA[key]}/>
             )}</div>}
           </TransitionSpring>
         </div>
     );
   }
 
-  _getProfileInitialSpring () {
-    return spring({size: 40, left: 25, top: 5, radius: 100});
+  _stopComparing () {
+    this.setState({comparingId: null});
   }
 
   _getProfileEndValue (prev) {
-    // Remember that default spring and end values must have the same format.
     if (this.state.comparingId !== null) {
       const radius = prev.val.size < 150 ? 80 : 0;
       return spring({size: 380, left: 860, top: 100, radius});
     } else {
-      return this._getProfileInitialSpring();
+      return getProfileInitialSpring();
     }
   }
 
-  // Prospect
   _animatedProspectWillEnterOrLeave(key) {
-    return {
-      val: {
-        size: 60, // original size in css
-        left: this.state.prospectsDimensions[key].left - 20, // 20 is the margin value
-        top: this.state.prospectsDimensions[key].top - 20,
-        radius: 100
-      },
-      config
-    };
+    const left = this.state.prospectsDimensions[key].left - 20; // 20 is the margin value
+    const top = this.state.prospectsDimensions[key].top - 20; // 20 is the margin value
+
+    return {val: {size: 60, left, top, radius: 100}, config};
   }
 
   _getAnimatedProspectEndValue(prev) {
