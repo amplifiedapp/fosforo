@@ -1,5 +1,6 @@
 publish:
 	git checkout gh-pages
+	git pull
 	git merge master
 	npm install
 	npm run build

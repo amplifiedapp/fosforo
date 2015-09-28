@@ -18,23 +18,20 @@ const prospects = [
 ];
 
 const spring = (values) => ({val: {...values}, config });
-const initialSpring = (dimensions) => spring({
-  size: 30, profileLeft: 5, profileTop: 5, prospectRadius: 100, prospectTranslateX: 0, prospectTranslateY: 0
-});
 
-const ProfilePicture = ({ip: { val: { profileLeft, profileTop, size } }}) => (
+
+const ProfilePicture = ({ip: { val: {left, top, size, radius} }}) => (
   <div className="profilePicture" style={{
-    width: size, height: size, left: profileLeft, top: profileTop
+    width: size, height: size, left, top, borderRadius: `${radius}%`
   }}/>
 );
-
 
 const Prospect = (props) => <div className="prospectWrapper"><div className={`prospect ${props.comparing ? "is-comparing" : ""}`}
   onClick={(ev) => props.onClick(ev.target.getBoundingClientRect.bind(ev.target))}><img src={props.prospect.src} width={60}/></div>
   <span className="prospectName">{props.prospect.fullName}</span></div>;
 
-const AnimatedProspect = ({ip: { val: { left, top, size } }, prospect:{src}}) => <div className="prospect" style={{
-  position: "absolute", left, top, width: size, height: size
+const AnimatedProspect = ({ip: { val: { left, top, size, radius} }, prospect:{src}}) => <div className="prospect" style={{
+  position: "absolute", left, top, width: size, height: size, borderRadius: `${radius}%`
 }}><img src={src} width={size}/></div>;
 
 
@@ -44,76 +41,82 @@ class App extends React.Component {
     this.state = {comparingIndex: null, prospectsDimensions: {}};
   }
 
-  willEnterOrLeave(key) {
-    return {
-      val: {
-        size: 60, // original size in css
-        left: this.state.prospectsDimensions[key].left - 20, // 20 is the margin value
-        top: this.state.prospectsDimensions[key].top - 20
-      },
-      config
-    };
-  }
-
-  getEndValue() {
-    if (this.state.comparingIndex === null) return {};
-    let prospectsDimensions = this.state.prospectsDimensions;
-    return {
-      [this.state.comparingIndex]: {val: {size: 300, left: 300, top: 180}, config}
-    };
-  }
-
   render () {
     return (
         <div>
           <div className="header" onClick={() => this.setState({comparingIndex: null})} >
-            <Spring defaultValue={initialSpring(this.state.prospectsDimensions[this.state.comparingIndex])} endValue={this._computeEndValue.bind(this)} >
+            <Spring defaultValue={this._getProfileInitialSpring()} endValue={this._getProfileEndValue.bind(this)} >
               {ip => <ProfilePicture ip={ip} />}
             </Spring>
           </div>
 
-          <h3 className="infoTitle">
-            Click on any person to see how you two look together!
-          </h3>
 
           <div className="prospectList">
+            <div className="prospectListHeader">Click on any person to see how you two look together!</div>
+            <div className="prospectListContent">
             {prospects.map((prospect, index) => (
               <Prospect key={index} onClick={this._handleProspectClick.bind(this, index)}
                 comparing={this.state.comparingIndex === index} prospect={prospect} />)
               )
             }
+            </div>
           </div>
 
+          <div className={`compareFrame ${this.state.comparingIndex !== null ? "is-comparing" : ""}`}></div>
+
           <TransitionSpring
-            willEnter={this.willEnterOrLeave.bind(this)}
-            willLeave={this.willEnterOrLeave.bind(this)}
-            endValue={this.getEndValue()}
+            willEnter={this._animatedProspectWillEnterOrLeave.bind(this)}
+            willLeave={this._animatedProspectWillEnterOrLeave.bind(this)}
+            endValue={this._getAnimatedProspectEndValue()}
           >
-            {prospectsIps => <div>{Object.keys(prospectsIps).map(key =>
-              <AnimatedProspect key={key} ip={prospectsIps[key]} prospect={prospects[key]}/>
+            {currentValue => <div>{Object.keys(currentValue).map(key =>
+              <AnimatedProspect key={key} ip={currentValue[key]} prospect={prospects[key]}/>
             )}</div>}
           </TransitionSpring>
         </div>
     );
   }
 
-  _computeEndValue (prev) {
-    const {size, profileLeft, profileTop} = this.state.comparingIndex !== null ?
-      { size: 300, profileLeft: 200, profileTop: 200 } :
-      initialSpring().val;
+  _getProfileInitialSpring () {
+    return spring({size: 40, left: 25, top: 5, radius: 100});
+  }
 
-    return spring({size, profileLeft, profileTop});
+  _getProfileEndValue (prev) {
+    // Remember that default spring and end values must have the same format.
+    if (this.state.comparingIndex !== null) {
+      const radius = prev.val.size < 150 ? 80 : 0;
+      return spring({size: 380, left: 860, top: 100, radius});
+    } else {
+      return this._getProfileInitialSpring();
+    }
+  }
+
+  // Prospect
+
+  _animatedProspectWillEnterOrLeave(key) {
+    return {
+      val: {
+        size: 60, // original size in css
+        left: this.state.prospectsDimensions[key].left - 20, // 20 is the margin value
+        top: this.state.prospectsDimensions[key].top - 20,
+        radius: 100
+      },
+      config
+    };
+  }
+
+  _getAnimatedProspectEndValue(prev) {
+    if (this.state.comparingIndex === null) return {};
+    return {
+      [this.state.comparingIndex]: {val: {size: 380, left: 450, top: 80, radius: 0}, config}
+    };
   }
 
   _handleProspectClick (index, getDimensions) {
-    const {left, top} = getDimensions();
-    this.setState({
-      comparingIndex: this.state.comparingIndex === index ? null : index,
-      prospectsDimensions: {
-        ...this.state.prospectsDimensions,
-        [index]: {index, left, top}
-      }
-    });
+    const {left, top, right} = getDimensions();
+    const prospectsDimensions = {...this.state.prospectsDimensions, [index]: {index, left, right, top}};
+    const comparingIndex = this.state.comparingIndex === index ? null : index;
+    this.setState({comparingIndex, prospectsDimensions});
   }
 }
 
