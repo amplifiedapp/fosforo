@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import isMobile from "is-mobile";
 import _ from "lodash";
 import {Spring, TransitionSpring, presets as motionPresets} from "react-motion";
 
@@ -87,4 +88,8 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('reactContainer'));
+if (!isMobile()) {
+  ReactDOM.render(<App />, document.getElementById('reactContainer'));
+} else {
+  document.getElementById('mobileBlocker').setAttribute("style", "");
+}
