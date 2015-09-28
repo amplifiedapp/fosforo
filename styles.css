@@ -24,13 +24,13 @@ body {
   background-color: #1173BF;
   position: relative;
   color: white;
-  height: 45px;
+  height: 50px;
   width: 100%;
 }
 
 .infoTitle {
-  margin-top: 50px;
-  text-align: center;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .prospectList {
@@ -39,8 +39,8 @@ body {
   width: 340px;
   height: 450px;
   padding: 20px;
-  margin: auto;
-  margin-top: 40px;
+  margin-left: 20px;
+  margin-top: 20px;
   box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -67,6 +67,23 @@ body {
 
 .prospect.is-comparing {
   opacity: .2;
+}
+
+.compareFrame {
+  position: absolute;
+  top: 110px;
+  left: 450px;
+  width: 810px;
+  height: 450px;
+  box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: opacity .5s, transform .5s;
+}
+
+.compareFrame.is-comparing {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .profilePicture {
