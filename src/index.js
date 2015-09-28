@@ -50,16 +50,16 @@ class App extends React.Component {
             </Spring>
           </div>
 
-          <h3 className="infoTitle">
-            Click on any person to see how you two look together!
-          </h3>
 
           <div className="prospectList">
+            <div className="prospectListHeader">Click on any person to see how you two look together!</div>
+            <div className="prospectListContent">
             {prospects.map((prospect, index) => (
               <Prospect key={index} onClick={this._handleProspectClick.bind(this, index)}
                 comparing={this.state.comparingIndex === index} prospect={prospect} />)
               )
             }
+            </div>
           </div>
 
           <div className={`compareFrame ${this.state.comparingIndex !== null ? "is-comparing" : ""}`}></div>
@@ -78,14 +78,14 @@ class App extends React.Component {
   }
 
   _getProfileInitialSpring () {
-    return spring({size: 40, left: 500, top: 5, radius: 100});
+    return spring({size: 40, left: 25, top: 5, radius: 100});
   }
 
   _getProfileEndValue (prev) {
     // Remember that default spring and end values must have the same format.
     if (this.state.comparingIndex !== null) {
       const radius = prev.val.size < 150 ? 80 : 0;
-      return spring({size: 380, left: 860, top: 130, radius});
+      return spring({size: 380, left: 860, top: 100, radius});
     } else {
       return this._getProfileInitialSpring();
     }
@@ -108,7 +108,7 @@ class App extends React.Component {
   _getAnimatedProspectEndValue(prev) {
     if (this.state.comparingIndex === null) return {};
     return {
-      [this.state.comparingIndex]: {val: {size: 380, left: 450, top: 110, radius: 0}, config}
+      [this.state.comparingIndex]: {val: {size: 380, left: 450, top: 80, radius: 0}, config}
     };
   }
 
