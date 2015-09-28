@@ -3,27 +3,11 @@ import ReactDOM from "react-dom";
 import _ from "lodash";
 import {Spring, TransitionSpring, presets as motionPresets} from "react-motion";
 
-
 const config = [253, 20];
-const prospects = [
-  {id: "1", src: "http://images.celebeat.com/data/images/full/3789/jennifer-aniston-puts-on-weight-for-her-role-in-cake-ib-times.jpg", fullName: "Jennifer A."},
-  {id: "2", src: "http://www.celebritynetworth.co/wp-content/uploads/2015/08/angelina-jolie-197957_w1000.jpg", fullName: "Angelina J."},
-  {id: "3", src: "http://i.huffpost.com/gen/1351199/images/o-DEMI-MOORE-2013-facebook.jpg", fullName: "Demi M."},
-  {id: "4", src: "http://www.theplace2.ru/archive/claire_forlani/img/2006jan2forlani55eb.jpg", fullName: "Claire F."},
-  {id: "5", src: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Gwyneth_Paltrow_2012.jpg", fullName: "Gwyneth P."},
-  {id: "6", src: "http://www.dvdsreleasedates.com/pictures/800/12000/Thandie-Newton.jpg", fullName: "Thandie N."},
-  {id: "7", src: "https://pmcdeadline2.files.wordpress.com/2012/08/ormond__120830221523.jpg", fullName: "Julia O."},
-  {id: "8", src: "http://lostfilm.info/images/photo_actor/51/583271_507482.jpg", fullName: "Sonita H."},
-  {id: "9", src: "http://images.mstarz.com/data/images/full/28019/sinitta.jpg", fullName: "Sinitta"},
-];
-
 const spring = (values) => ({val: {...values}, config });
 
-
 const ProfilePicture = ({ip: { val: {left, top, size, radius} }}) => (
-  <div className="profilePicture" style={{
-    width: size, height: size, left, top, borderRadius: `${radius}%`
-  }}/>
+  <div className="profilePicture" style={{width: size, height: size, left, top, borderRadius: `${radius}%`}}/>
 );
 
 const Prospect = (props) => <div className="prospectWrapper"><div className={`prospect ${props.comparing ? "is-comparing" : ""}`}
@@ -31,20 +15,18 @@ const Prospect = (props) => <div className="prospectWrapper"><div className={`pr
   <span className="prospectName">{props.prospect.fullName}</span></div>;
 
 const AnimatedProspect = ({ip: { val: { left, top, size, radius} }, prospect:{src}}) => <div className="prospect" style={{
-  position: "absolute", left, top, width: size, height: size, borderRadius: `${radius}%`
-}}><img src={src} width={size}/></div>;
-
+  position: "absolute", left, top, width: size, height: size, borderRadius: `${radius}%`}}><img src={src} width={size}/></div>;
 
 class App extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {comparingIndex: null, prospectsDimensions: {}};
+    this.state = {comparingId: null, prospectsDimensions: {}};
   }
 
   render () {
     return (
         <div>
-          <div className="header" onClick={() => this.setState({comparingIndex: null})} >
+          <div className="header" onClick={() => this.setState({comparingId: null})} >
             <Spring defaultValue={this._getProfileInitialSpring()} endValue={this._getProfileEndValue.bind(this)} >
               {ip => <ProfilePicture ip={ip} />}
             </Spring>
@@ -54,23 +36,20 @@ class App extends React.Component {
           <div className="prospectList">
             <div className="prospectListHeader">Click on any person to see how you two look together!</div>
             <div className="prospectListContent">
-            {prospects.map((prospect, index) => (
-              <Prospect key={index} onClick={this._handleProspectClick.bind(this, index)}
-                comparing={this.state.comparingIndex === index} prospect={prospect} />)
-              )
-            }
+            {_.map(PROSPECT_DATA, (prospect, id) => (
+              <Prospect key={id} onClick={this._handleProspectClick.bind(this, id)}
+                comparing={this.state.comparingId === id} prospect={prospect} />)
+            )}
             </div>
           </div>
-
-          <div className={`compareFrame ${this.state.comparingIndex !== null ? "is-comparing" : ""}`}></div>
-
+          <div className={`compareFrame ${this.state.comparingId !== null ? "is-comparing" : ""}`}></div>
           <TransitionSpring
             willEnter={this._animatedProspectWillEnterOrLeave.bind(this)}
             willLeave={this._animatedProspectWillEnterOrLeave.bind(this)}
             endValue={this._getAnimatedProspectEndValue()}
           >
             {currentValue => <div>{Object.keys(currentValue).map(key =>
-              <AnimatedProspect key={key} ip={currentValue[key]} prospect={prospects[key]}/>
+              <AnimatedProspect key={key} ip={currentValue[key]} prospect={PROSPECT_DATA[key]}/>
             )}</div>}
           </TransitionSpring>
         </div>
@@ -83,7 +62,7 @@ class App extends React.Component {
 
   _getProfileEndValue (prev) {
     // Remember that default spring and end values must have the same format.
-    if (this.state.comparingIndex !== null) {
+    if (this.state.comparingId !== null) {
       const radius = prev.val.size < 150 ? 80 : 0;
       return spring({size: 380, left: 860, top: 100, radius});
     } else {
@@ -92,7 +71,6 @@ class App extends React.Component {
   }
 
   // Prospect
-
   _animatedProspectWillEnterOrLeave(key) {
     return {
       val: {
@@ -106,17 +84,14 @@ class App extends React.Component {
   }
 
   _getAnimatedProspectEndValue(prev) {
-    if (this.state.comparingIndex === null) return {};
-    return {
-      [this.state.comparingIndex]: {val: {size: 380, left: 450, top: 80, radius: 0}, config}
-    };
+    return this.state.comparingId ? {[this.state.comparingId]: {val: {size: 380, left: 450, top: 80, radius: 0}, config}} : {};
   }
 
-  _handleProspectClick (index, getDimensions) {
+  _handleProspectClick (id, getDimensions) {
     const {left, top, right} = getDimensions();
-    const prospectsDimensions = {...this.state.prospectsDimensions, [index]: {index, left, right, top}};
-    const comparingIndex = this.state.comparingIndex === index ? null : index;
-    this.setState({comparingIndex, prospectsDimensions});
+    const prospectsDimensions = {...this.state.prospectsDimensions, [id]: {id, left, right, top}};
+    const comparingId = this.state.comparingId === id ? null : id;
+    this.setState({comparingId, prospectsDimensions});
   }
 }
 
