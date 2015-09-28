@@ -25,7 +25,7 @@ const initialSpring = (dimensions) => spring({
 const ProfilePicture = ({ip: { val: { profileLeft, profileTop, size } }}) => (
   <div className="profilePicture" style={{
     width: size, height: size, left: profileLeft, top: profileTop
-  }} />
+  }}/>
 );
 
 
