@@ -80,19 +80,15 @@
 	var spring = function spring(values) {
 	  return { val: _extends({}, values), config: config };
 	};
-	var initialSpring = function initialSpring(dimensions) {
-	  return spring({
-	    size: 30, profileLeft: 5, profileTop: 5, prospectRadius: 100, prospectTranslateX: 0, prospectTranslateY: 0
-	  });
-	};
 
 	var ProfilePicture = function ProfilePicture(_ref2) {
 	  var _ref2$ip$val = _ref2.ip.val;
-	  var profileLeft = _ref2$ip$val.profileLeft;
-	  var profileTop = _ref2$ip$val.profileTop;
+	  var left = _ref2$ip$val.left;
+	  var top = _ref2$ip$val.top;
 	  var size = _ref2$ip$val.size;
+	  var radius = _ref2$ip$val.radius;
 	  return _react2["default"].createElement("div", { className: "profilePicture", style: {
-	      width: size, height: size, left: profileLeft, top: profileTop
+	      width: size, height: size, left: left, top: top, borderRadius: radius + "%"
 	    } });
 	};
 
@@ -121,11 +117,12 @@
 	  var left = _ref3$ip$val.left;
 	  var top = _ref3$ip$val.top;
 	  var size = _ref3$ip$val.size;
+	  var radius = _ref3$ip$val.radius;
 	  var src = _ref3.prospect.src;
 	  return _react2["default"].createElement(
 	    "div",
 	    { className: "prospect", style: {
-	        position: "absolute", left: left, top: top, width: size, height: size
+	        position: "absolute", left: left, top: top, width: size, height: size, borderRadius: radius + "%"
 	      } },
 	    _react2["default"].createElement("img", { src: src, width: size })
 	  );
@@ -142,25 +139,6 @@
 	  }
 
 	  _createClass(App, [{
-	    key: "willEnterOrLeave",
-	    value: function willEnterOrLeave(key) {
-	      return {
-	        val: {
-	          size: 60, // original size in css
-	          left: this.state.prospectsDimensions[key].left - 20, // 20 is the margin value
-	          top: this.state.prospectsDimensions[key].top - 20
-	        },
-	        config: config
-	      };
-	    }
-	  }, {
-	    key: "getEndValue",
-	    value: function getEndValue() {
-	      if (this.state.comparingIndex === null) return {};
-	      var prospectsDimensions = this.state.prospectsDimensions;
-	      return _defineProperty({}, this.state.comparingIndex, { val: { size: 300, left: 300, top: 180 }, config: config });
-	    }
-	  }, {
 	    key: "render",
 	    value: function render() {
 	      var _this = this;
@@ -175,38 +153,43 @@
 	            } },
 	          _react2["default"].createElement(
 	            _reactMotion.Spring,
-	            { defaultValue: initialSpring(this.state.prospectsDimensions[this.state.comparingIndex]), endValue: this._computeEndValue.bind(this) },
+	            { defaultValue: this._getProfileInitialSpring(), endValue: this._getProfileEndValue.bind(this) },
 	            function (ip) {
 	              return _react2["default"].createElement(ProfilePicture, { ip: ip });
 	            }
 	          )
 	        ),
 	        _react2["default"].createElement(
-	          "h3",
-	          { className: "infoTitle" },
-	          "Click on any person to see how you two look together!"
-	        ),
-	        _react2["default"].createElement(
 	          "div",
 	          { className: "prospectList" },
-	          prospects.map(function (prospect, index) {
-	            return _react2["default"].createElement(Prospect, { key: index, onClick: _this._handleProspectClick.bind(_this, index),
-	              comparing: _this.state.comparingIndex === index, prospect: prospect });
-	          })
+	          _react2["default"].createElement(
+	            "div",
+	            { className: "prospectListHeader" },
+	            "Click on any person to see how you two look together!"
+	          ),
+	          _react2["default"].createElement(
+	            "div",
+	            { className: "prospectListContent" },
+	            prospects.map(function (prospect, index) {
+	              return _react2["default"].createElement(Prospect, { key: index, onClick: _this._handleProspectClick.bind(_this, index),
+	                comparing: _this.state.comparingIndex === index, prospect: prospect });
+	            })
+	          )
 	        ),
+	        _react2["default"].createElement("div", { className: "compareFrame " + (this.state.comparingIndex !== null ? "is-comparing" : "") }),
 	        _react2["default"].createElement(
 	          _reactMotion.TransitionSpring,
 	          {
-	            willEnter: this.willEnterOrLeave.bind(this),
-	            willLeave: this.willEnterOrLeave.bind(this),
-	            endValue: this.getEndValue()
+	            willEnter: this._animatedProspectWillEnterOrLeave.bind(this),
+	            willLeave: this._animatedProspectWillEnterOrLeave.bind(this),
+	            endValue: this._getAnimatedProspectEndValue()
 	          },
-	          function (prospectsIps) {
+	          function (currentValue) {
 	            return _react2["default"].createElement(
 	              "div",
 	              null,
-	              Object.keys(prospectsIps).map(function (key) {
-	                return _react2["default"].createElement(AnimatedProspect, { key: key, ip: prospectsIps[key], prospect: prospects[key] });
+	              Object.keys(currentValue).map(function (key) {
+	                return _react2["default"].createElement(AnimatedProspect, { key: key, ip: currentValue[key], prospect: prospects[key] });
 	              })
 	            );
 	          }
@@ -214,15 +197,42 @@
 	      );
 	    }
 	  }, {
-	    key: "_computeEndValue",
-	    value: function _computeEndValue(prev) {
-	      var _ref4 = this.state.comparingIndex !== null ? { size: 300, profileLeft: 200, profileTop: 200 } : initialSpring().val;
+	    key: "_getProfileInitialSpring",
+	    value: function _getProfileInitialSpring() {
+	      return spring({ size: 40, left: 25, top: 5, radius: 100 });
+	    }
+	  }, {
+	    key: "_getProfileEndValue",
+	    value: function _getProfileEndValue(prev) {
+	      // Remember that default spring and end values must have the same format.
+	      if (this.state.comparingIndex !== null) {
+	        var radius = prev.val.size < 150 ? 80 : 0;
+	        return spring({ size: 380, left: 860, top: 100, radius: radius });
+	      } else {
+	        return this._getProfileInitialSpring();
+	      }
+	    }
 
-	      var size = _ref4.size;
-	      var profileLeft = _ref4.profileLeft;
-	      var profileTop = _ref4.profileTop;
+	    // Prospect
 
-	      return spring({ size: size, profileLeft: profileLeft, profileTop: profileTop });
+	  }, {
+	    key: "_animatedProspectWillEnterOrLeave",
+	    value: function _animatedProspectWillEnterOrLeave(key) {
+	      return {
+	        val: {
+	          size: 60, // original size in css
+	          left: this.state.prospectsDimensions[key].left - 20, // 20 is the margin value
+	          top: this.state.prospectsDimensions[key].top - 20,
+	          radius: 100
+	        },
+	        config: config
+	      };
+	    }
+	  }, {
+	    key: "_getAnimatedProspectEndValue",
+	    value: function _getAnimatedProspectEndValue(prev) {
+	      if (this.state.comparingIndex === null) return {};
+	      return _defineProperty({}, this.state.comparingIndex, { val: { size: 380, left: 450, top: 80, radius: 0 }, config: config });
 	    }
 	  }, {
 	    key: "_handleProspectClick",
@@ -231,11 +241,11 @@
 
 	      var left = _getDimensions.left;
 	      var top = _getDimensions.top;
+	      var right = _getDimensions.right;
 
-	      this.setState({
-	        comparingIndex: this.state.comparingIndex === index ? null : index,
-	        prospectsDimensions: _extends({}, this.state.prospectsDimensions, _defineProperty({}, index, { index: index, left: left, top: top }))
-	      });
+	      var prospectsDimensions = _extends({}, this.state.prospectsDimensions, _defineProperty({}, index, { index: index, left: left, right: right, top: top }));
+	      var comparingIndex = this.state.comparingIndex === index ? null : index;
+	      this.setState({ comparingIndex: comparingIndex, prospectsDimensions: prospectsDimensions });
 	    }
 	  }]);
 
