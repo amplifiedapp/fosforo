@@ -28,7 +28,7 @@ const AnimatedProspect = ({ip: { val: { left, top, size, radius}}, prospect: {sr
 
 const CompareFrame = ({ prospect }) => <div className={`compareFrame ${prospect ? "is-comparing" : ""}`}>
   {prospect && <div className="compareFrameNames">
-    <span className="compareFrameName">{prospect.fullName}</span> & <span className="compareFrameName">Brad Pitt</span>
+    <span className="compareFrameName">Julia F.</span> & <span className="compareFrameName">{prospect.fullName}</span>
   </div>}
 </div>
 

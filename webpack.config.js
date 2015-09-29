@@ -19,14 +19,14 @@ var config = {
       },
       "PROSPECT_DATA": JSON.stringify({
         1: {"id": "1", "src": "src/assets/images/p1.jpg", "fullName": "Jennifer A."},
-        2: {"id": "2", "src": "src/assets/images/p10.jpg", "fullName": "Angelina J."},
-        3: {"id": "3", "src": "src/assets/images/p3.jpg", "fullName": "Demi M."},
-        4: {"id": "4", "src": "src/assets/images/p4.jpg", "fullName": "Claire F."},
-        5: {"id": "5", "src": "src/assets/images/p5.jpg", "fullName": "Gwyneth P."},
-        6: {"id": "6", "src": "src/assets/images/p6.jpg", "fullName": "Thandie N."},
-        7: {"id": "7", "src": "src/assets/images/p7.jpg", "fullName": "Julia O."},
-        8: {"id": "8", "src": "src/assets/images/p8.jpg", "fullName": "Sonita H."},
-        9: {"id": "9", "src": "src/assets/images/p9.jpg", "fullName": "Sinitta"},
+        2: {"id": "2", "src": "src/assets/images/p2.jpg", "fullName": "Romario J."},
+        3: {"id": "3", "src": "src/assets/images/p3.jpg", "fullName": "Albert K."},
+        4: {"id": "4", "src": "src/assets/images/p4.jpg", "fullName": "John K."},
+        5: {"id": "5", "src": "src/assets/images/p5.jpg", "fullName": "Hernan C."},
+        6: {"id": "6", "src": "src/assets/images/p6.jpg", "fullName": "Thomas E."},
+        7: {"id": "7", "src": "src/assets/images/p7.jpg", "fullName": "Byron S."},
+        8: {"id": "8", "src": "src/assets/images/p8.jpg", "fullName": "Sonya R."},
+        9: {"id": "9", "src": "src/assets/images/p9.jpg", "fullName": "Paul K."},
       })
     })
   ],
