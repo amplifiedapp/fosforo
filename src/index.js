@@ -6,9 +6,9 @@ import { Spring, TransitionSpring } from "react-motion";
 
 const config = [100, 15];
 const spring = (values) => ({val: {...values}, config });
-const getProfileInitialSpring = () => spring({size: 40, left: 25, top: 5, radius: 100});
+const getProfileInitialSpring = () => spring({size: 40, left: 25, top: 5});
 
-const ProfilePicture = ({ip: { val: {left, top, size, radius} }}) => (
+const ProfilePicture = ({ip: { val: {left, top, size} }}) => (
   <div className="profilePicture" style={{width: size, height: size, left, top}}/>
 );
 
@@ -22,7 +22,7 @@ const Prospect = (props) => <div className="prospectWrapper"><div className={`pr
   onClick={(ev) => props.onClick(ev.target.getBoundingClientRect.bind(ev.target))}><img src={props.prospect.src} width={60}/></div>
   <div className="prospectName">{props.prospect.fullName}</div></div>;
 
-const AnimatedProspect = ({ip: { val: { left, top, size, radius}}, prospect: {src}, onClick}) => <div className="prospect"
+const AnimatedProspect = ({ip: { val: { left, top, size}}, prospect: {src}, onClick}) => <div className="prospect"
   style={{position: "absolute", left, top, width: size, height: size, zIndex: 10}} onClick={onClick}><img src={src} width={size}/></div>;
 
 const CompareFrame = ({ prospect, close }) => <div className={`compareFrame ${prospect ? "is-comparing" : ""}`} onClick={close}>
@@ -65,10 +65,9 @@ class App extends React.Component {
 
   _getProfileEndValue (prev) {
     if (this.state.comparingId !== null) {
-      const radius = 100;
       const top = (prev.val.size < 200 && 10) || (prev.val.size < 300 && 30) || 108;
       const left = (prev.val.size < 200 && 600) || (prev.val.size < 300 && 400) || 430;
-      return spring({size: 380, left, top, radius});
+      return spring({size: 380, left, top});
     } else {
       return getProfileInitialSpring();
     }
@@ -77,15 +76,14 @@ class App extends React.Component {
   _animatedProspectWillEnterOrLeave(key) {
     const left = this.state.prospectsDimensions[key].left;
     const top = this.state.prospectsDimensions[key].top;
-    return {val: {size: 60, left, top, radius: 100}, config};
+    return {val: {size: 60, left, top}, config};
   }
 
   _getAnimatedProspectEndValue(prevAnimations) {
     if (!this.state.comparingId) return {};
     const prev = prevAnimations[this.state.comparingId] && prevAnimations[this.state.comparingId].val || {};
-    const radius = prev.size > 100 ? 100 : 50;
     const top = (prev.size < 200 && 500) || 108;
-    return {[this.state.comparingId]: {val: {size: 380, left: 839, top, radius}, config}};
+    return {[this.state.comparingId]: {val: {size: 380, left: 839, top}, config}};
   }
 
   _handleProspectClick ({ id }, getDimensions) {
