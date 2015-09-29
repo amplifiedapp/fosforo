@@ -1,5 +1,5 @@
 {
-  "name": "catch_your_match",
+  "name": "mix_and_match",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "is-mobile": "^0.2.2",
     "lodash": "^3.10.1",
     "react": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
