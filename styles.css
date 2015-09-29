@@ -110,7 +110,8 @@ body {
 /* mobile blocker*/
 
 .mobileBlocker-header img {
-  margin: 10% 31%;
+  margin: 10% 30%;
+  width: 169px;
 }
 
 .mobileBlocker-content {
@@ -119,6 +120,6 @@ body {
 }
 
 .mobileBlocker-content h1 {
-  font-size: 4rem;
+  font-size: 2rem;
   margin: 0 5% 5% 5%;
 }
