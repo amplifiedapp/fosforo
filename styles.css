@@ -36,11 +36,17 @@ body {
 }
 
 .headerLogo {
-  width: 100px;
   position: absolute;
   right: 10px;
   top: 10px;
   cursor: pointer;
+  text-decoration: none;
+  border: 0;
+}
+
+.headerLogo_image {
+  width: 100px;
+  border: 0;
 }
 
 .profileName {
@@ -72,7 +78,6 @@ body {
   color: #5F5F5F;
   border-bottom: 1px solid #E4E4E4;
   font-family: "Lucida Grande", "Helvetica";
-  background-color: #0CA1A3;
   padding-bottom: 10px;
   background: linear-gradient(#FAFAFA, #F2F2F2);
 }

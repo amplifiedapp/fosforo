@@ -1,3 +1,4 @@
+import "babel/polyfill";
 import React from "react";
 import { render } from "react-dom";
 import isMobile from "is-mobile";
@@ -44,7 +45,7 @@ class App extends React.Component {
           {ip => <ProfilePicture ip={ip} />}
         </Spring>
         <span className="profileName">Julia F.</span>
-        <a href="http://match.com"><img src="src/assets/images/match-heart-logo-white.png"  className="headerLogo" /></a>
+        <a href="http://match.com" className="headerLogo"><img src="src/assets/images/match-heart-logo-white.png" className="headerLogo_image"/></a>
       </div>
       <ProspectList comparingId={this.state.comparingId} onSelectProspect={this._handleProspectClick.bind(this)}
         prospects={Object.keys(PROSPECT_DATA).map((prospectId) => PROSPECT_DATA[prospectId])} />
@@ -98,5 +99,4 @@ class App extends React.Component {
   }
 }
 
-const getEl = document.getElementById.bind(document);
-isMobile() ? getEl('mobileBlocker').setAttribute("style", "") : render(<App />, getEl('reactContainer'));
+isMobile() ? document.getElementById('mobileBlocker').setAttribute("style", "") : render(<App />, document.getElementById('reactContainer'));
