@@ -68,15 +68,22 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _lodash = __webpack_require__(153);
+	var _isMobile = __webpack_require__(153);
+
+	var _isMobile2 = _interopRequireDefault(_isMobile);
+
+	var _lodash = __webpack_require__(154);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _reactMotion = __webpack_require__(155);
+	var _reactMotion = __webpack_require__(156);
 
 	var config = [253, 20];
 	var spring = function spring(values) {
 	  return { val: _extends({}, values), config: config };
+	};
+	var getProfileInitialSpring = function getProfileInitialSpring() {
+	  return spring({ size: 40, left: 25, top: 5, radius: 100 });
 	};
 
 	var ProfilePicture = function ProfilePicture(_ref2) {
@@ -115,10 +122,11 @@
 	  var size = _ref3$ip$val.size;
 	  var radius = _ref3$ip$val.radius;
 	  var src = _ref3.prospect.src;
+	  var onClick = _ref3.onClick;
 	  return _react2["default"].createElement(
 	    "div",
-	    { className: "prospect", style: {
-	        position: "absolute", left: left, top: top, width: size, height: size, borderRadius: radius + "%" } },
+	    { className: "prospect",
+	      style: { position: "absolute", left: left, top: top, width: size, height: size, borderRadius: radius + "%" }, onClick: onClick },
 	    _react2["default"].createElement("img", { src: src, width: size })
 	  );
 	};
@@ -143,12 +151,10 @@
 	        null,
 	        _react2["default"].createElement(
 	          "div",
-	          { className: "header", onClick: function () {
-	              return _this.setState({ comparingId: null });
-	            } },
+	          { className: "header", onClick: this._stopComparing.bind(this) },
 	          _react2["default"].createElement(
 	            _reactMotion.Spring,
-	            { defaultValue: this._getProfileInitialSpring(), endValue: this._getProfileEndValue.bind(this) },
+	            { defaultValue: getProfileInitialSpring(), endValue: this._getProfileEndValue.bind(this) },
 	            function (ip) {
 	              return _react2["default"].createElement(ProfilePicture, { ip: ip });
 	            }
@@ -174,8 +180,7 @@
 	        _react2["default"].createElement("div", { className: "compareFrame " + (this.state.comparingId !== null ? "is-comparing" : "") }),
 	        _react2["default"].createElement(
 	          _reactMotion.TransitionSpring,
-	          {
-	            willEnter: this._animatedProspectWillEnterOrLeave.bind(this),
+	          { willEnter: this._animatedProspectWillEnterOrLeave.bind(this),
 	            willLeave: this._animatedProspectWillEnterOrLeave.bind(this),
 	            endValue: this._getAnimatedProspectEndValue()
 	          },
@@ -184,7 +189,7 @@
 	              "div",
 	              null,
 	              Object.keys(currentValue).map(function (key) {
-	                return _react2["default"].createElement(AnimatedProspect, { key: key, ip: currentValue[key], prospect: ({"1":{"id":"1","src":"http://images.celebeat.com/data/images/full/3789/jennifer-aniston-puts-on-weight-for-her-role-in-cake-ib-times.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"http://www.celebritynetworth.co/wp-content/uploads/2015/08/angelina-jolie-197957_w1000.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"http://i.huffpost.com/gen/1351199/images/o-DEMI-MOORE-2013-facebook.jpg","fullName":"Demi M."},"4":{"id":"4","src":"http://www.theplace2.ru/archive/claire_forlani/img/2006jan2forlani55eb.jpg","fullName":"Claire F."},"5":{"id":"5","src":"https://upload.wikimedia.org/wikipedia/commons/3/3d/Gwyneth_Paltrow_2012.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"http://www.dvdsreleasedates.com/pictures/800/12000/Thandie-Newton.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"https://pmcdeadline2.files.wordpress.com/2012/08/ormond__120830221523.jpg","fullName":"Julia O."},"8":{"id":"8","src":"http://lostfilm.info/images/photo_actor/51/583271_507482.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"http://images.mstarz.com/data/images/full/28019/sinitta.jpg","fullName":"Sinitta"}})[key] });
+	                return _react2["default"].createElement(AnimatedProspect, { onClick: _this._stopComparing.bind(_this), key: key, ip: currentValue[key], prospect: ({"1":{"id":"1","src":"http://images.celebeat.com/data/images/full/3789/jennifer-aniston-puts-on-weight-for-her-role-in-cake-ib-times.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"http://www.celebritynetworth.co/wp-content/uploads/2015/08/angelina-jolie-197957_w1000.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"http://i.huffpost.com/gen/1351199/images/o-DEMI-MOORE-2013-facebook.jpg","fullName":"Demi M."},"4":{"id":"4","src":"http://www.theplace2.ru/archive/claire_forlani/img/2006jan2forlani55eb.jpg","fullName":"Claire F."},"5":{"id":"5","src":"https://upload.wikimedia.org/wikipedia/commons/3/3d/Gwyneth_Paltrow_2012.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"http://www.dvdsreleasedates.com/pictures/800/12000/Thandie-Newton.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"https://pmcdeadline2.files.wordpress.com/2012/08/ormond__120830221523.jpg","fullName":"Julia O."},"8":{"id":"8","src":"http://lostfilm.info/images/photo_actor/51/583271_507482.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"http://images.mstarz.com/data/images/full/28019/sinitta.jpg","fullName":"Sinitta"}})[key] });
 	              })
 	            );
 	          }
@@ -192,35 +197,27 @@
 	      );
 	    }
 	  }, {
-	    key: "_getProfileInitialSpring",
-	    value: function _getProfileInitialSpring() {
-	      return spring({ size: 40, left: 25, top: 5, radius: 100 });
+	    key: "_stopComparing",
+	    value: function _stopComparing() {
+	      this.setState({ comparingId: null });
 	    }
 	  }, {
 	    key: "_getProfileEndValue",
 	    value: function _getProfileEndValue(prev) {
-	      // Remember that default spring and end values must have the same format.
 	      if (this.state.comparingId !== null) {
 	        var radius = prev.val.size < 150 ? 80 : 0;
 	        return spring({ size: 380, left: 860, top: 100, radius: radius });
 	      } else {
-	        return this._getProfileInitialSpring();
+	        return getProfileInitialSpring();
 	      }
 	    }
-
-	    // Prospect
 	  }, {
 	    key: "_animatedProspectWillEnterOrLeave",
 	    value: function _animatedProspectWillEnterOrLeave(key) {
-	      return {
-	        val: {
-	          size: 60, // original size in css
-	          left: this.state.prospectsDimensions[key].left - 20, // 20 is the margin value
-	          top: this.state.prospectsDimensions[key].top - 20,
-	          radius: 100
-	        },
-	        config: config
-	      };
+	      var left = this.state.prospectsDimensions[key].left - 20; // 20 is the margin value
+	      var top = this.state.prospectsDimensions[key].top - 20; // 20 is the margin value
+
+	      return { val: { size: 60, left: left, top: top, radius: 100 }, config: config };
 	    }
 	  }, {
 	    key: "_getAnimatedProspectEndValue",
@@ -245,7 +242,11 @@
 	  return App;
 	})(_react2["default"].Component);
 
-	_reactDom2["default"].render(_react2["default"].createElement(App, null), document.getElementById('reactContainer'));
+	if (!(0, _isMobile2["default"])()) {
+	  _reactDom2["default"].render(_react2["default"].createElement(App, null), document.getElementById('reactContainer'));
+	} else {
+	  document.getElementById('mobileBlocker').setAttribute("style", "");
+	}
 
 /***/ },
 /* 1 */
@@ -18964,6 +18965,24 @@
 
 /***/ },
 /* 153 */
+/***/ function(module, exports) {
+
+	module.exports = isMobile;
+
+	function isMobile (ua) {
+	  if (!ua && typeof navigator != 'undefined') ua = navigator.userAgent;
+	  if (ua && ua.headers && typeof ua.headers['user-agent'] == 'string') {
+	    ua = ua.headers['user-agent'];
+	  }
+	  if (typeof ua != 'string') return false;
+
+	  return /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(ua) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(ua.substr(0,4));
+	}
+
+
+
+/***/ },
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -31318,10 +31337,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(154)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(155)(module), (function() { return this; }())))
 
 /***/ },
-/* 154 */
+/* 155 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -31337,7 +31356,7 @@
 
 
 /***/ },
-/* 155 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31346,16 +31365,16 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _reorderKeys = __webpack_require__(156);
+	var _reorderKeys = __webpack_require__(157);
 
 	var _reorderKeys2 = _interopRequireDefault(_reorderKeys);
 
-	var _Spring = __webpack_require__(157);
+	var _Spring = __webpack_require__(158);
 
 	exports.Spring = _Spring.Spring;
 	exports.TransitionSpring = _Spring.TransitionSpring;
 
-	var _presets2 = __webpack_require__(175);
+	var _presets2 = __webpack_require__(176);
 
 	var _presets3 = _interopRequireDefault(_presets2);
 
@@ -31366,7 +31385,7 @@
 	exports.utils = utils;
 
 /***/ },
-/* 156 */
+/* 157 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31388,7 +31407,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 157 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31399,14 +31418,14 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _components = __webpack_require__(158);
+	var _components = __webpack_require__(159);
 
 	var _components2 = _interopRequireDefault(_components);
 
 	module.exports = _components2['default'](_react2['default']);
 
 /***/ },
-/* 158 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31419,31 +31438,31 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _mapTree = __webpack_require__(159);
+	var _mapTree = __webpack_require__(160);
 
 	var _mapTree2 = _interopRequireDefault(_mapTree);
 
-	var _noVelocity = __webpack_require__(165);
+	var _noVelocity = __webpack_require__(166);
 
 	var _noVelocity2 = _interopRequireDefault(_noVelocity);
 
-	var _compareTrees = __webpack_require__(166);
+	var _compareTrees = __webpack_require__(167);
 
 	var _compareTrees2 = _interopRequireDefault(_compareTrees);
 
-	var _mergeDiff = __webpack_require__(167);
+	var _mergeDiff = __webpack_require__(168);
 
 	var _mergeDiff2 = _interopRequireDefault(_mergeDiff);
 
-	var _animationLoop = __webpack_require__(168);
+	var _animationLoop = __webpack_require__(169);
 
 	var _animationLoop2 = _interopRequireDefault(_animationLoop);
 
-	var _zero = __webpack_require__(172);
+	var _zero = __webpack_require__(173);
 
 	var _zero2 = _interopRequireDefault(_zero);
 
-	var _updateTree = __webpack_require__(173);
+	var _updateTree = __webpack_require__(174);
 
 	var startAnimation = _animationLoop2['default']();
 
@@ -31704,7 +31723,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 159 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31714,7 +31733,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(160);
+	var _lodashIsplainobject = __webpack_require__(161);
 
 	// currenly a helper used for producing a tree of the same shape as the
 	// input(s),  but with different values. It's technically not a real `map`
@@ -31762,7 +31781,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 160 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31773,9 +31792,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(161),
-	    isArguments = __webpack_require__(162),
-	    keysIn = __webpack_require__(163);
+	var baseFor = __webpack_require__(162),
+	    isArguments = __webpack_require__(163),
+	    keysIn = __webpack_require__(164);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -31871,7 +31890,7 @@
 
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports) {
 
 	/**
@@ -31963,7 +31982,7 @@
 
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports) {
 
 	/**
@@ -32075,7 +32094,7 @@
 
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32086,8 +32105,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(162),
-	    isArray = __webpack_require__(164);
+	var isArguments = __webpack_require__(163),
+	    isArray = __webpack_require__(165);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -32213,7 +32232,7 @@
 
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports) {
 
 	/**
@@ -32399,7 +32418,7 @@
 
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32409,7 +32428,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(160);
+	var _lodashIsplainobject = __webpack_require__(161);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -32428,7 +32447,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32438,7 +32457,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(160);
+	var _lodashIsplainobject = __webpack_require__(161);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -32461,7 +32480,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports) {
 
 	// this function is allocation-less thanks to babel, which transforms the tail
@@ -32575,7 +32594,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32585,11 +32604,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _performanceNow = __webpack_require__(169);
+	var _performanceNow = __webpack_require__(170);
 
 	var _performanceNow2 = _interopRequireDefault(_performanceNow);
 
-	var _raf = __webpack_require__(171);
+	var _raf = __webpack_require__(172);
 
 	var _raf2 = _interopRequireDefault(_raf);
 
@@ -32728,7 +32747,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Generated by CoffeeScript 1.7.1
@@ -32764,10 +32783,10 @@
 
 	}).call(this);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(170)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(171)))
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -32864,10 +32883,10 @@
 
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var now = __webpack_require__(169)
+	var now = __webpack_require__(170)
 	  , global = typeof window === 'undefined' ? {} : window
 	  , vendors = ['moz', 'webkit']
 	  , suffix = 'AnimationFrame'
@@ -32938,7 +32957,7 @@
 
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports) {
 
 	// used by the tree-walking updates and springs. Avoids some allocations
@@ -32954,7 +32973,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 173 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32966,23 +32985,23 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(160);
+	var _lodashIsplainobject = __webpack_require__(161);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
-	var _mapTree = __webpack_require__(159);
+	var _mapTree = __webpack_require__(160);
 
 	var _mapTree2 = _interopRequireDefault(_mapTree);
 
-	var _stepper = __webpack_require__(174);
+	var _stepper = __webpack_require__(175);
 
 	var _stepper2 = _interopRequireDefault(_stepper);
 
-	var _zero = __webpack_require__(172);
+	var _zero = __webpack_require__(173);
 
 	var _zero2 = _interopRequireDefault(_zero);
 
-	var _presets = __webpack_require__(175);
+	var _presets = __webpack_require__(176);
 
 	// TODO: refactor common logic with updateCurrValue and updateCurrVelocity
 
@@ -33135,7 +33154,7 @@
 	}
 
 /***/ },
-/* 174 */
+/* 175 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33172,7 +33191,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports) {
 
 	// [stiffness, damping]
