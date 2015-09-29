@@ -52,21 +52,21 @@ body {
 }
 
 .prospectListContent {
-  padding: 20px;
+  padding: 20px 15px;
 }
 
 .prospectWrapper {
   display: inline-block;
-  width: 82px;
-  margin-right: 5%;
+  width: 33%;
+  padding: 5% 2.5%;
+  text-align: center;
 }
 
 .prospect {
   width: 60px;
   height: 60px;
   border-radius: 100%;
-  float: left;
-  margin: 20px;
+  margin: 0 auto;
   cursor: pointer;
   overflow: hidden;
 }
@@ -74,6 +74,7 @@ body {
 .prospectName {
   font-size: 0.9rem;
   color: #5F5F5F;
+  margin-top: 10px;
 }
 
 .prospect.is-comparing {
@@ -96,6 +97,17 @@ body {
 .compareFrame.is-comparing {
   transform: translateY(0);
   opacity: 1;
+}
+
+.compareFrameNames {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.compareFrameName {
+  margin: 20px
 }
 
 .profilePicture {
