@@ -79,7 +79,7 @@
 	  return { val: _extends({}, values), config: config };
 	};
 	var getProfileInitialSpring = function getProfileInitialSpring() {
-	  return spring({ size: 40, left: 25, top: 5, radius: 100 });
+	  return spring({ size: 40, left: 25, top: 5 });
 	};
 
 	var ProfilePicture = function ProfilePicture(_ref2) {
@@ -87,7 +87,6 @@
 	  var left = _ref2$ip$val.left;
 	  var top = _ref2$ip$val.top;
 	  var size = _ref2$ip$val.size;
-	  var radius = _ref2$ip$val.radius;
 	  return _react2["default"].createElement("div", { className: "profilePicture", style: { width: size, height: size, left: left, top: top } });
 	};
 
@@ -138,7 +137,6 @@
 	  var left = _ref4$ip$val.left;
 	  var top = _ref4$ip$val.top;
 	  var size = _ref4$ip$val.size;
-	  var radius = _ref4$ip$val.radius;
 	  var src = _ref4.prospect.src;
 	  var onClick = _ref4.onClick;
 	  return _react2["default"].createElement(
@@ -252,10 +250,9 @@
 	    key: "_getProfileEndValue",
 	    value: function _getProfileEndValue(prev) {
 	      if (this.state.comparingId !== null) {
-	        var radius = 100;
 	        var _top = prev.val.size < 200 && 10 || prev.val.size < 300 && 30 || 108;
 	        var left = prev.val.size < 200 && 600 || prev.val.size < 300 && 400 || 430;
-	        return spring({ size: 380, left: left, top: _top, radius: radius });
+	        return spring({ size: 380, left: left, top: _top });
 	      } else {
 	        return getProfileInitialSpring();
 	      }
@@ -265,16 +262,15 @@
 	    value: function _animatedProspectWillEnterOrLeave(key) {
 	      var left = this.state.prospectsDimensions[key].left;
 	      var top = this.state.prospectsDimensions[key].top;
-	      return { val: { size: 60, left: left, top: top, radius: 100 }, config: config };
+	      return { val: { size: 60, left: left, top: top }, config: config };
 	    }
 	  }, {
 	    key: "_getAnimatedProspectEndValue",
 	    value: function _getAnimatedProspectEndValue(prevAnimations) {
 	      if (!this.state.comparingId) return {};
 	      var prev = prevAnimations[this.state.comparingId] && prevAnimations[this.state.comparingId].val || {};
-	      var radius = prev.size > 100 ? 100 : 50;
 	      var top = prev.size < 200 && 500 || 108;
-	      return _defineProperty({}, this.state.comparingId, { val: { size: 380, left: 839, top: top, radius: radius }, config: config });
+	      return _defineProperty({}, this.state.comparingId, { val: { size: 380, left: 839, top: top }, config: config });
 	    }
 	  }, {
 	    key: "_handleProspectClick",
