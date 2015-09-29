@@ -3,7 +3,8 @@ import { render } from "react-dom";
 import isMobile from "is-mobile";
 import { Spring, TransitionSpring } from "react-motion";
 
-const config = [253, 20];
+const config = [120, 13];
+const configNoWobbly = [120, 3];
 const spring = (values) => ({val: {...values}, config });
 const getProfileInitialSpring = () => spring({size: 40, left: 25, top: 5, radius: 100});
 
@@ -43,13 +44,15 @@ class App extends React.Component {
         <Spring defaultValue={getProfileInitialSpring()} endValue={this._getProfileEndValue.bind(this)} >
           {ip => <ProfilePicture ip={ip} />}
         </Spring>
+        <span className="profileName">Julia F.</span>
+        <a href="http://match.com"><img src="src/assets/images/match-heart-logo-white.png"  className="headerLogo" /></a>
       </div>
       <ProspectList comparingId={this.state.comparingId} onSelectProspect={this._handleProspectClick.bind(this)}
         prospects={Object.keys(PROSPECT_DATA).map((prospectId) => PROSPECT_DATA[prospectId])} />
       <CompareFrame prospect={PROSPECT_DATA[this.state.comparingId]} />
       <TransitionSpring willEnter={this._animatedProspectWillEnterOrLeave.bind(this)}
         willLeave={this._animatedProspectWillEnterOrLeave.bind(this)}
-        endValue={this._getAnimatedProspectEndValue()}>
+        endValue={this._getAnimatedProspectEndValue.bind(this)}>
         {currentValue => <div>{Object.keys(currentValue).map(key =>
           <AnimatedProspect onClick={this._stopComparing.bind(this)} key={key} ip={currentValue[key]} prospect={PROSPECT_DATA[key]}/>
         )}</div>}
@@ -64,7 +67,7 @@ class App extends React.Component {
   _getProfileEndValue (prev) {
     if (this.state.comparingId !== null) {
       const radius = prev.val.size < 150 ? 80 : 0;
-      return spring({size: 380, left: 860, top: 100, radius});
+      return spring({size: 380, left: 839, top: 108, radius});
     } else {
       return getProfileInitialSpring();
     }
@@ -77,8 +80,11 @@ class App extends React.Component {
     return {val: {size: 60, left, top, radius: 100}, config};
   }
 
-  _getAnimatedProspectEndValue(prev) {
-    return this.state.comparingId ? {[this.state.comparingId]: {val: {size: 380, left: 470, top: 100, radius: 0}, config}} : {};
+  _getAnimatedProspectEndValue(prevAnimations) {
+    if (!this.state.comparingId) return {};
+    const prev = prevAnimations[this.state.comparingId] && prevAnimations[this.state.comparingId].val || {};
+    const radius = prev.size < 200 ? 80 : 0;
+    return {[this.state.comparingId]: {val: {size: 380, left: 430, top: 108, radius}, config}};
   }
 
   _handleProspectClick ({ id }, getDimensions) {

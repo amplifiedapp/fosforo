@@ -16,6 +16,7 @@ html, body {
 body {
   overflow: hidden;
   background-color: #E9EAED;
+  background-image: url("src/assets/images/background.png");
 }
 
 * {
@@ -30,11 +31,26 @@ body {
   width: 100%;
 }
 
+.headerLogo {
+  width: 100px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.profileName {
+  position: absolute;
+  left: 74px;
+  top: 17px;
+  font-size: 16px;
+}
+
 .prospectList {
   position: relative;
   overflow: hidden;
   width: 340px;
-  height: 450px;
+  height: 480px;
   margin-left: 25px;
   margin-top: 30px;
   box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
@@ -85,9 +101,9 @@ body {
   position: absolute;
   background-color: white;
   top: 80px;
-  left: 450px;
-  width: 810px;
-  height: 450px;
+  left: 400px;
+  width: 848px;
+  height: 480px;
   box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
   opacity: 0;
   transform: translateY(-50px);
@@ -101,8 +117,10 @@ body {
 
 .compareFrameNames {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
   width: 100%;
+  color: #5F5F5F;
+  font-family: "Lucida Grande", "Helvetica";
   text-align: center;
 }
 
@@ -112,10 +130,10 @@ body {
 
 .profilePicture {
   position: absolute;
-  background-color: #EC6360;
   cursor: pointer;
   background-image: url("http://www.winradio101.com/wp-content/uploads/2015/07/Brad_Pitt_3.jpg");
   background-size: cover;
+  box-shadow:0px 0px 15px 1px rgba(1,1,1,.2) inset;
   z-index: 1;
 }
 
