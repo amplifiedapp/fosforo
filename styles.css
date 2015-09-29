@@ -16,6 +16,11 @@ html, body {
 body {
   overflow: hidden;
   background-color: white;
+  /*background-image: url("src/assets/images/dating_bg.png");*/
+  background-image: url("src/assets/images/coffee_bg.jpg");
+  background-size: cover;
+  background-position: left bottom;
+  /*background-repeat: no-repeat;*/
 }
 
 * {
@@ -23,7 +28,7 @@ body {
 }
 
 .header {
-  background-color: #1173BF;
+  background-color: rgba(17, 115, 191, .7); /* #1173BF; */
   position: relative;
   color: white;
   height: 50px;
@@ -52,7 +57,7 @@ body {
   margin-left: 25px;
   margin-top: 30px;
   background-color: white;
-  background: linear-gradient(#FAFAFA, #F2F2F2);
+  background: linear-gradient(#FAFAFA, rgba(242,242,242, .8)); /* #F2F2F2); */
   border-right: 1px solid #E8E8E8;
   border-bottom: 1px solid #E2E2E2;
   border-top: 1px solid #F7F7F7;
