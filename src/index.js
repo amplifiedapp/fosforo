@@ -9,7 +9,7 @@ const spring = (values) => ({val: {...values}, config });
 const getProfileInitialSpring = () => spring({size: 40, left: 25, top: 5, radius: 100});
 
 const ProfilePicture = ({ip: { val: {left, top, size, radius} }}) => (
-  <div className="profilePicture" style={{width: size, height: size, left, top, borderRadius: `${radius}%`}}/>
+  <div className="profilePicture" style={{width: size, height: size, left, top}}/>
 );
 
 const ProspectList = ({ prospects, comparingId, onSelectProspect }) => <div className="prospectList">
@@ -23,7 +23,7 @@ const Prospect = (props) => <div className="prospectWrapper"><div className={`pr
   <div className="prospectName">{props.prospect.fullName}</div></div>;
 
 const AnimatedProspect = ({ip: { val: { left, top, size, radius}}, prospect: {src}, onClick}) => <div className="prospect"
-  style={{position: "absolute", left, top, width: size, height: size, borderRadius: `${radius}%`}} onClick={onClick} >
+  style={{position: "absolute", left, top, width: size, height: size}} onClick={onClick} >
   <img src={src} width={size}/></div>;
 
 const CompareFrame = ({ prospect }) => <div className={`compareFrame ${prospect ? "is-comparing" : ""}`}>
@@ -57,6 +57,7 @@ class App extends React.Component {
           <AnimatedProspect onClick={this._stopComparing.bind(this)} key={key} ip={currentValue[key]} prospect={PROSPECT_DATA[key]}/>
         )}</div>}
       </TransitionSpring>
+      <div className="footer"><span>Copyright © Match</span></div>
     </div>;
   }
 
@@ -66,7 +67,7 @@ class App extends React.Component {
 
   _getProfileEndValue (prev) {
     if (this.state.comparingId !== null) {
-      const radius = prev.val.size < 150 ? 80 : 0;
+      const radius = 100;//prev.val.size < 150 ? 80 : 0;
       return spring({size: 380, left: 839, top: 108, radius});
     } else {
       return getProfileInitialSpring();
@@ -83,7 +84,7 @@ class App extends React.Component {
   _getAnimatedProspectEndValue(prevAnimations) {
     if (!this.state.comparingId) return {};
     const prev = prevAnimations[this.state.comparingId] && prevAnimations[this.state.comparingId].val || {};
-    const radius = prev.size < 200 ? 80 : 0;
+    const radius = prev.size > 100 ? 100 : 50;
     return {[this.state.comparingId]: {val: {size: 380, left: 430, top: 108, radius}, config}};
   }
 
