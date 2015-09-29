@@ -11,6 +11,10 @@ With Mix and Match you can compare how you look together with your next partner.
 - Babel
 - Webpack
 
+## DEMO
+
+- [Try it out here](http://yellowlobster.github.io/mix_and_match/)
+
 ## Browser support
 
 Mix and Match was tested on:
