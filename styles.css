@@ -15,7 +15,7 @@ html, body {
 
 body {
   overflow: hidden;
-  background-color: #E9EAED;
+  background-color: white;
 }
 
 * {
@@ -30,43 +30,66 @@ body {
   width: 100%;
 }
 
+.headerLogo {
+  width: 100px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.profileName {
+  position: absolute;
+  left: 74px;
+  top: 17px;
+  font-size: 16px;
+}
+
 .prospectList {
   position: relative;
   overflow: hidden;
   width: 340px;
-  height: 450px;
   margin-left: 25px;
   margin-top: 30px;
-  box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
+  /*box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);*/
   background-color: white;
+  background: linear-gradient(#FAFAFA, #F2F2F2);
+  border-right: 1px solid #E8E8E8;
+  border-bottom: 1px solid #E2E2E2;
+  border-top: 1px solid #F7F7F7;
+  border-left: 1px solid #EAEAEA;
+  border-radius: 5px;
 }
 
 .prospectListHeader {
   margin: 0;
   padding: 10px;
   font-size: 15px;
-  color: white;
+  /*color: white;*/
+  color: #5F5F5F;
+  border-bottom: 1px solid #E4E4E4;
   font-family: "Lucida Grande", "Helvetica";
   background-color: #0CA1A3;
   padding-bottom: 10px;
+  background: linear-gradient(#FAFAFA, #F2F2F2);
 }
 
 .prospectListContent {
-  padding: 20px;
+  padding: 20px 15px;
 }
 
 .prospectWrapper {
   display: inline-block;
-  width: 82px;
-  margin-right: 5%;
+  width: 33%;
+  padding: 5% 2.5%;
+  text-align: center;
 }
 
 .prospect {
   width: 60px;
   height: 60px;
   border-radius: 100%;
-  float: left;
-  margin: 20px;
+  margin: 0 auto;
   cursor: pointer;
   overflow: hidden;
 }
@@ -74,6 +97,7 @@ body {
 .prospectName {
   font-size: 0.9rem;
   color: #5F5F5F;
+  margin-top: 10px;
 }
 
 .prospect.is-comparing {
@@ -81,16 +105,20 @@ body {
 }
 
 .compareFrame {
+  background-image: url("src/assets/images/bg2.png");
   position: absolute;
-  background-color: white;
   top: 80px;
-  left: 450px;
-  width: 810px;
-  height: 450px;
-  box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
+  left: 400px;
+  width: 848px;
+  height: 436px;
   opacity: 0;
   transform: translateY(-50px);
   transition: opacity .3s, transform .3s;
+  border-radius: 220px;
+  border-right: 1px solid #E8E8E8;
+  border-bottom: 1px solid #E2E2E2;
+  border-top: 1px solid #E8E8E8;
+  border-left: 1px solid #EAEAEA;
 }
 
 .compareFrame.is-comparing {
@@ -98,13 +126,28 @@ body {
   opacity: 1;
 }
 
+.compareFrameNames {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  color: #5F5F5F;
+  font-family: "Lucida Grande", "Helvetica";
+  font-weight: bold;
+  text-align: center;
+}
+
+.compareFrameName {
+  margin: 20px
+}
+
 .profilePicture {
   position: absolute;
-  background-color: #EC6360;
   cursor: pointer;
-  background-image: url("http://www.winradio101.com/wp-content/uploads/2015/07/Brad_Pitt_3.jpg");
+  background-image: url("src/assets/images/p2.jpg");
   background-size: cover;
+  box-shadow:0px 0px 15px 1px rgba(1,1,1,.2) inset;
   z-index: 1;
+  border-radius: 100%;
 }
 
 
@@ -134,4 +177,15 @@ body {
 .mobileBlocker-content span {
   display: inline-block;
   padding: 0 18%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0px;
+  height: 40px;
+  background-color: rgba(1,1,1,.7);
+  width: 100%;
+  color: white;
+  padding-top: 10px;
+  padding-left: 20px;
 }
