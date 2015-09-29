@@ -4,16 +4,16 @@ Do you ever wonder how you will look together with your next date?
 
 With Mix and Match you can compare how you look together with your next partner.
 
+## DEMO
+
+- [Try it out here](http://yellowlobster.github.io/mix_and_match/)
+
 ## Technologies used
 
 - React 0.14-rc1
 - React Motion
 - Babel
 - Webpack
-
-## DEMO
-
-- [Try it out here](http://yellowlobster.github.io/mix_and_match/)
 
 ## Browser support
 
