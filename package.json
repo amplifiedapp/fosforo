@@ -1,5 +1,6 @@
 {
   "name": "mix_and_match",
+  "description": "Mix and Match pictures to find your best partner",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
