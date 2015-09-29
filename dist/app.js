@@ -159,13 +159,13 @@
 	      _react2["default"].createElement(
 	        "span",
 	        { className: "compareFrameName" },
-	        prospect.fullName
+	        "Julia F."
 	      ),
 	      " & ",
 	      _react2["default"].createElement(
 	        "span",
 	        { className: "compareFrameName" },
-	        "Brad Pitt"
+	        prospect.fullName
 	      )
 	    )
 	  );
@@ -211,10 +211,10 @@
 	          )
 	        ),
 	        _react2["default"].createElement(ProspectList, { comparingId: this.state.comparingId, onSelectProspect: this._handleProspectClick.bind(this),
-	          prospects: Object.keys(({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p10.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Demi M."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"Claire F."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Julia O."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Sinitta"}})).map(function (prospectId) {
-	            return ({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p10.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Demi M."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"Claire F."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Julia O."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Sinitta"}})[prospectId];
+	          prospects: Object.keys(({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p2.jpg","fullName":"Romario J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Albert K."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"John K."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Hernan C."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thomas E."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Byron S."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonya R."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Paul K."}})).map(function (prospectId) {
+	            return ({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p2.jpg","fullName":"Romario J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Albert K."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"John K."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Hernan C."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thomas E."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Byron S."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonya R."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Paul K."}})[prospectId];
 	          }) }),
-	        _react2["default"].createElement(CompareFrame, { prospect: ({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p10.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Demi M."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"Claire F."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Julia O."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Sinitta"}})[this.state.comparingId] }),
+	        _react2["default"].createElement(CompareFrame, { prospect: ({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p2.jpg","fullName":"Romario J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Albert K."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"John K."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Hernan C."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thomas E."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Byron S."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonya R."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Paul K."}})[this.state.comparingId] }),
 	        _react2["default"].createElement(
 	          _reactMotion.TransitionSpring,
 	          { willEnter: this._animatedProspectWillEnterOrLeave.bind(this),
@@ -225,7 +225,7 @@
 	              "div",
 	              null,
 	              Object.keys(currentValue).map(function (key) {
-	                return _react2["default"].createElement(AnimatedProspect, { onClick: _this._stopComparing.bind(_this), key: key, ip: currentValue[key], prospect: ({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p10.jpg","fullName":"Angelina J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Demi M."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"Claire F."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Gwyneth P."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thandie N."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Julia O."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonita H."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Sinitta"}})[key] });
+	                return _react2["default"].createElement(AnimatedProspect, { onClick: _this._stopComparing.bind(_this), key: key, ip: currentValue[key], prospect: ({"1":{"id":"1","src":"src/assets/images/p1.jpg","fullName":"Jennifer A."},"2":{"id":"2","src":"src/assets/images/p2.jpg","fullName":"Romario J."},"3":{"id":"3","src":"src/assets/images/p3.jpg","fullName":"Albert K."},"4":{"id":"4","src":"src/assets/images/p4.jpg","fullName":"John K."},"5":{"id":"5","src":"src/assets/images/p5.jpg","fullName":"Hernan C."},"6":{"id":"6","src":"src/assets/images/p6.jpg","fullName":"Thomas E."},"7":{"id":"7","src":"src/assets/images/p7.jpg","fullName":"Byron S."},"8":{"id":"8","src":"src/assets/images/p8.jpg","fullName":"Sonya R."},"9":{"id":"9","src":"src/assets/images/p9.jpg","fullName":"Paul K."}})[key] });
 	              })
 	            );
 	          }
