@@ -72,8 +72,7 @@
 
 	var _reactMotion = __webpack_require__(154);
 
-	var config = [120, 13];
-	var configNoWobbly = [120, 3];
+	var config = [100, 15];
 	var spring = function spring(values) {
 	  return { val: _extends({}, values), config: config };
 	};
@@ -251,7 +250,9 @@
 	    value: function _getProfileEndValue(prev) {
 	      if (this.state.comparingId !== null) {
 	        var radius = 100;
-	        return spring({ size: 380, left: 430, top: 108, radius: radius });
+	        var _top = prev.val.size < 200 && 10 || prev.val.size < 300 && 30 || 108;
+	        var left = prev.val.size < 200 && 600 || prev.val.size < 300 && 400 || 430;
+	        return spring({ size: 380, left: left, top: _top, radius: radius });
 	      } else {
 	        return getProfileInitialSpring();
 	      }
@@ -270,7 +271,8 @@
 	      if (!this.state.comparingId) return {};
 	      var prev = prevAnimations[this.state.comparingId] && prevAnimations[this.state.comparingId].val || {};
 	      var radius = prev.size > 100 ? 100 : 50;
-	      return _defineProperty({}, this.state.comparingId, { val: { size: 380, left: 839, top: 108, radius: radius }, config: config });
+	      var top = prev.size < 200 && 500 || 108;
+	      return _defineProperty({}, this.state.comparingId, { val: { size: 380, left: 839, top: top, radius: radius }, config: config });
 	    }
 	  }, {
 	    key: "_handleProspectClick",
