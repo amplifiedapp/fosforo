@@ -3,8 +3,7 @@ import { render } from "react-dom";
 import isMobile from "is-mobile";
 import { Spring, TransitionSpring } from "react-motion";
 
-const config = [120, 13];
-const configNoWobbly = [120, 3];
+const config = [100, 15];
 const spring = (values) => ({val: {...values}, config });
 const getProfileInitialSpring = () => spring({size: 40, left: 25, top: 5, radius: 100});
 
@@ -68,7 +67,9 @@ class App extends React.Component {
   _getProfileEndValue (prev) {
     if (this.state.comparingId !== null) {
       const radius = 100;
-      return spring({size: 380, left: 430, top: 108, radius});
+      const top = (prev.val.size < 200 && 10) || (prev.val.size < 300 && 30) || 108;
+      const left = (prev.val.size < 200 && 600) || (prev.val.size < 300 && 400) || 430;
+      return spring({size: 380, left, top, radius});
     } else {
       return getProfileInitialSpring();
     }
@@ -85,7 +86,8 @@ class App extends React.Component {
     if (!this.state.comparingId) return {};
     const prev = prevAnimations[this.state.comparingId] && prevAnimations[this.state.comparingId].val || {};
     const radius = prev.size > 100 ? 100 : 50;
-    return {[this.state.comparingId]: {val: {size: 380, left: 839, top: 108, radius}, config}};
+    const top = (prev.size < 200 && 500) || 108;
+    return {[this.state.comparingId]: {val: {size: 380, left: 839, top, radius}, config}};
   }
 
   _handleProspectClick ({ id }, getDimensions) {
