@@ -23,13 +23,11 @@ const Prospect = (props) => <div className="prospectWrapper"><div className={`pr
   <div className="prospectName">{props.prospect.fullName}</div></div>;
 
 const AnimatedProspect = ({ip: { val: { left, top, size, radius}}, prospect: {src}, onClick}) => <div className="prospect"
-  style={{position: "absolute", left, top, width: size, height: size, zIndex: 10}} onClick={onClick} >
-  <img src={src} width={size}/></div>;
+  style={{position: "absolute", left, top, width: size, height: size, zIndex: 10}} onClick={onClick}><img src={src} width={size}/></div>;
 
-const CompareFrame = ({ prospect }) => <div className={`compareFrame ${prospect ? "is-comparing" : ""}`}>
+const CompareFrame = ({ prospect, close }) => <div className={`compareFrame ${prospect ? "is-comparing" : ""}`} onClick={close}>
   {prospect && <div className="compareFrameNames">
-    <span className="compareFrameName">Julia F.</span> & <span className="compareFrameName">{prospect.fullName}</span>
-  </div>}
+    <span className="compareFrameName">Julia F.</span> & <span className="compareFrameName">{prospect.fullName}</span></div>}
 </div>
 
 class App extends React.Component {
@@ -49,7 +47,7 @@ class App extends React.Component {
       </div>
       <ProspectList comparingId={this.state.comparingId} onSelectProspect={this._handleProspectClick.bind(this)}
         prospects={Object.keys(PROSPECT_DATA).map((prospectId) => PROSPECT_DATA[prospectId])} />
-      <CompareFrame prospect={PROSPECT_DATA[this.state.comparingId]} />
+      <CompareFrame prospect={PROSPECT_DATA[this.state.comparingId]} close={this._stopComparing.bind(this)}/>
       <TransitionSpring willEnter={this._animatedProspectWillEnterOrLeave.bind(this)}
         willLeave={this._animatedProspectWillEnterOrLeave.bind(this)}
         endValue={this._getAnimatedProspectEndValue.bind(this)}>
@@ -79,7 +77,6 @@ class App extends React.Component {
   _animatedProspectWillEnterOrLeave(key) {
     const left = this.state.prospectsDimensions[key].left;
     const top = this.state.prospectsDimensions[key].top;
-
     return {val: {size: 60, left, top, radius: 100}, config};
   }
 
