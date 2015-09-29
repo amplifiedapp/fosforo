@@ -10,6 +10,7 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: "Helvetica", "Lucida Grande", "Lucida";
+  height: 100%;
 }
 
 body {
@@ -108,9 +109,15 @@ body {
 
 
 /* mobile blocker*/
+.mobileBlocker {
+  height: 100%;
+  background-image: url("src/assets/images/dating.jpg");
+  background-size: cover;
+  background-position-x: -363px;
+}
 
 .mobileBlocker-header img {
-  margin: 10% 30%;
+  margin: 10% 29% 5%;
   width: 169px;
 }
 
@@ -121,5 +128,10 @@ body {
 
 .mobileBlocker-content h1 {
   font-size: 2rem;
-  margin: 0 5% 5% 5%;
+  margin: 0 5% 45% 5%;
+}
+
+.mobileBlocker-content span {
+  display: inline-block;
+  padding: 0 18%;
 }
